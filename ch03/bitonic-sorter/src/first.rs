@@ -48,12 +48,4 @@ mod tests {
 
     assert_eq!(x, vec![330, 110, 30, 21, 20, 11, 10, 4]);
   }
-
-  #[test]
-  fn sort_u32_descendingorg() {
-    let mut x = vec![10, 30, 11, 20, 4, 330, 21, 110];
-    sort(&mut x, false);
-    // xの要素が降順にソートされていることを確認する
-    assert_eq!(x, vec![330, 110, 30, 21, 20, 11, 10, 4]);
-  }
 }
