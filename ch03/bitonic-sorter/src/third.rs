@@ -1,3 +1,16 @@
+use std::cmp::Ordering;
+
+pub fn sort_by<T, F>(x: &mut [T], comparator: &F) -> Result<(), String>
+  where F: Fn(&T, &T) -> Ordering
+{
+  if is_power_of_two(x.len()) {
+    do_sort(x, true, comparatore);
+    Ok(())
+  } else {
+    Err(format!("The length of x is not a powe of two. {}", x.len()))
+  }
+}
+
 mod tests {
   use super::{is_power_of_two, sort, sort_by};
   use crate::SortOrder::*;
