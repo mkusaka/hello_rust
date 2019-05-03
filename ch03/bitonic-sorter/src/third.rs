@@ -37,4 +37,24 @@ mod tests {
 
     assert_eq!(x, expected);
   }
+
+  #[test]
+  fn sort_students_by_name_ascending() {
+    let s1 = Student::new("s1first", "s1last", 16);
+    let s2 = Student::new("s2first", "s2last", 14);
+    let s3 = Student::new("s3first", "s3last", 15);
+    let s4 = Student::new("s4first", "s4last", 23);
+
+    let mut x = vec![&s2, &s1, &s4, &s3];
+
+    let expected = vec![&s1, &s2, &s3, &s4];
+
+    assert_eq!(
+      sort_by(&mut x, &|a, b|
+        a.last_name.cmp(&b.last_name).then_with(|| a.frist_name.cmp(&b.first_name))
+      ),
+      Ok(())
+    );
+    assert_eq!(x, expected);
+  }
 }
