@@ -4,7 +4,7 @@ struct Loc(usize, usize);
 impl Loc {
     fn merge(&self, other: &Loc) -> Loc {
         use std::cmp::{max, min};
-        Loc(min(self.0, other.0), max(self.1, ohter.1))
+        Loc(min(self.0, other.0), max(self.1, other.1))
     }
 }
 
