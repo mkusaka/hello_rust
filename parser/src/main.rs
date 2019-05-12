@@ -1,9 +1,8 @@
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 struct Loc(usize, usize);
 
-
 impl Loc {
-    fn merge(&self, other, &Loc) -> {
+    fn merge(&self, other: &Loc) -> Loc {
         use std::cmp::{max, min};
         Loc(min(self.0, other.0), max(self.1, ohter.1))
     }
@@ -30,10 +29,10 @@ enum TokenKind {
     Asterisk,
     Slash,
     LParen,
-    RParen
+    RParen,
 }
 
-type Token = Annot<TokenKind>
+type Token = Annot<TokenKind>;
 
 impl Token {
     fn number(n: u64, loc: Loc) -> Self {
@@ -48,15 +47,15 @@ impl Token {
         Self::new(TokenKind::Asterisk, loc)
     }
 
-    fn slash(loc: Loc) -> {
+    fn slash(loc: Loc) -> Self {
         Self::new(TokenKind::Slash, loc)
     }
 
-    fn lparen(loc: Loc) -> {
+    fn lparen(loc: Loc) -> Self {
         Self::new(TokenKind::LParen, loc)
     }
 
-    fn rparen(loc: LOc) -> {
+    fn rparen(loc: Loc) -> Self {
         Self::new(TokenKind::RParen, loc)
     }
 }
