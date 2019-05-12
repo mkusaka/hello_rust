@@ -34,3 +34,29 @@ enum TokenKind {
 }
 
 type Token = Annot<TokenKind>
+
+impl Token {
+    fn number(n: u64, loc: Loc) -> Self {
+        Self::new(TokenKind::Number(n), loc)
+    }
+
+    fn plus(loc: Loc) -> Self {
+        Self::new(TokenKind::Minus, loc)
+    }
+
+    fn asterisk(loc: Loc) -> Self {
+        Self::new(TokenKind::Asterisk, loc)
+    }
+
+    fn slash(loc: Loc) -> {
+        Self::new(TokenKind::Slash, loc)
+    }
+
+    fn lparen(loc: Loc) -> {
+        Self::new(TokenKind::LParen, loc)
+    }
+
+    fn rparen(loc: LOc) -> {
+        Self::new(TokenKind::RParen, loc)
+    }
+}
