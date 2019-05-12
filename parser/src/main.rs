@@ -77,3 +77,35 @@ impl LexError {
         LexError::new(LexErrorKind::Eof, loc)
     }
 }
+
+fn lex(input: &str) -> Result<Vec<Token>, LexError> {
+    let mut tokens = Vec::new();
+    let input = input.as_bytes();
+
+    let mut position = 0;
+
+    macro_rules! lex_a_token {
+        ($lexer:exper) => {{
+            let (tok, p) = $lexer?;
+            tokens.push(tok)
+            position = p
+        }};
+    }
+    while position < input.len() {
+        match input[position] {
+            b'0'...b'9' => lex_a_token!(lex_number(input, position)),
+            b'+' => lex_a_token!(lex_plus(input, position)),
+            b'-' => lex_a_token!(lex_minus(input, position)),
+            b'*' => lex_a_token!(lex_asterisk(input, position)),
+            b'/' => lex_a_token!(lex_slash(input, position)),
+            b'(' => lex_a_token!(lex_lparen(input, position)),
+            b')' => lex_a_token!(lex_rparen(input, position)),
+            b' ' | b'\n' | b'\t' => {
+                let ((), p) = skip_spaces(input, position)?;
+                position = p;
+            },
+            b => return Err(LexError::invalid_char(b as char, Loc(position, position + 1))),
+        }
+    }
+    Ok(tokens)
+}
