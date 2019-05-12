@@ -129,3 +129,58 @@ fn consume_byte(input: &[u8], position: usize, b: u8) -> Result<(u8, usize), Lex
 fn has_finished(input: &[u8], position: usize) -> bool {
     input.len() <= position
 }
+
+fn lex_plus(input: &[u8], start: usize) -> Result<(Token, usize), LexError> {
+    // Token::plus undef?
+    consume_byte(input, start, b'+').map(|(_, end)| (Token::plus(Loc(start, end)), end))
+}
+
+fn lex_minus(input: &[u8], start: usize) -> Result<(Token, usize), LexError> {
+    // Token::minus undef?
+    consume_byte(input, start, b'-').map(|(_, end)| (Token::minus(Loc(start, end)), end))
+}
+
+fn lex_asterisk(input: &[u8], start: usize) -> Result<(Token, usize), LexError> {
+    // Token::asterisk undef?
+    consume_byte(input, start, b'*').map(|(_, end)| (Token::asterisk(Loc(start, end)), end))
+}
+
+fn lex_slash(input: &[u8], start: usize) -> Result<(Token, usize), LexError> {
+    // Token::slash undef?
+    consume_byte(input, start, b'/').map(|(_, end)| (Token::slash(Loc(start, end)), end))
+}
+
+fn lex_lparen(input: &[u8], start: usize) -> Result<(Token, usize), LexError> {
+    // Token::lparen undef?
+    consume_byte(input, start, b'(').map(|(_, end)| (Token::lparen(Loc(start, end)), end))
+}
+
+fn lex_rparen(input: &[u8], start: usize) -> Result<(Token, usize), LexError> {
+    // Token::rparen undef?
+    consume_byte(input, start, b')').map(|(_, end)| (Token::rparen(Loc(start, end)), end))
+}
+
+// it is natural that return Result format. maybe
+fn lex_number(input: &[u8], mut position: usize) -> (Token, usize) {
+    use std::str::from_utf8
+
+    let start = position;
+
+    while position < input.len() && b"1234567890".contains(&input[position]) {
+        position += 1;
+    }
+
+    let n = from_utf8(&input[start..position])
+                .unwrap()
+                .parse()
+                .unwrap();
+    (Token::number(n, Loc(start, position)), position)
+}
+
+fn skip_spaces(input: &[u8], mut position: usize) -> ((), usize) {
+    while position < input.len() && b"\n\t".contains(&input[position]) {
+        position += 1;
+    }
+
+    ((), position)
+}
