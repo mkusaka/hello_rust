@@ -109,3 +109,23 @@ fn lex(input: &str) -> Result<Vec<Token>, LexError> {
     }
     Ok(tokens)
 }
+
+fn consume_byte(input: &[u8], position: usize, b: u8) -> Result<(u8, usize), LexError> {
+    if has_finished(input, position) {
+        return Err(LexError::eof(Loc(pos, pos)));
+    }
+
+    if input != b {
+        return Err(LexError::invalid_char(
+            input[pos] as char,
+            Loc(pos, pos + 1),
+
+        ));
+    }
+
+    Ok((b, pos+1))
+}
+
+fn has_finished(input: &[u8], position: usize) -> bool {
+    input.len() <= position
+}
